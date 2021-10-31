@@ -3,6 +3,8 @@ import time
 import sys
 import pyperclip as pc
 import random
+import nmap
+import re
 
 class color:
     HEADER = '\033[95m'
@@ -26,112 +28,31 @@ $$ |  $$ |$$ |  \__|          $$$$  _$$$$ | $$$$$$$ |  $$ |    \$$$$$$\  $$ /  $
 $$ |  $$ |$$ |                $$$  / \$$$ |$$  __$$ |  $$ |$$\  \____$$\ $$ |  $$ |$$ |  $$ |
 $$$$$$$  |$$ |      $$\       $$  /   \$$ |\$$$$$$$ |  \$$$$  |$$$$$$$  |\$$$$$$  |$$ |  $$ |
 \_______/ \__|      \__|      \__/     \__| \_______|   \____/ \_______/  \______/ \__|  \__|
-
-                ************************************************************
-                
-                * Copyright of Bartek Paczesny, 2021                       *
-                
-                * http://dev.paczesny.pl                                   *
-                
-                * https://www.youtube.com/channel/UC2ltR6-85OHpZfSPyNQx66Q *
-                
-                ************************************************************
         '''
 watsonPrompt = color.END + "watson ~# "
-
-def hashing():
-    try:
-        if(not os.path.isfile('klucz.key')):
-            key = Fernet.generate_key()
-
-            file = open('klucz.key', 'wb')
-            file.write(key)
-            file.close()
-        else:
-            os.system("cls")
-            file = open('klucz.key', 'rb')
-            key = file.read()
-            file.close()
-            print("Using key: ", key, "\n")
-
-            print("What do you want to do?\n1. Encrypt a message\n2. Decrypt a message")
-            enc_dec = input("> ")
-            if(enc_dec == "1"):
-                message = input("message> ")
-
-                encoded = message.encode() # enkodowanie wiadomosci na bajty
-
-                f = Fernet(key)
-                
-                encrypted = f.encrypt(encoded) # enkryptowanie enkodowanej wiadomosci (jak nie zenkodujesz to nie zadziała)
-                original_msg = encrypted.decode() # dekodowanie zaszyfrowanej wiadomosci
-                pc.copy(original_msg)
-
-                print("\nmessage ->  ", original_msg)
-                time.sleep(3)
-            elif(enc_dec == "2"):
-                message = input("message> ")
-                f = Fernet(key)
-
-                encrypted = message.encode()
-
-                decrypted = f.decrypt(encrypted)
-                original_msg = decrypted.decode()
-                pc.copy(original_msg)
-
-                print("\nmessage ->  ", original_msg)
-                time.sleep(3)
-            else:
-                print('wrong code!')
-                exit()
-    except ModuleNotFoundError:
-        print("Cannot find module named: 'cryptography'")
 
 def start():
     print(watsonlogo)
 
-class fsociety:
+class watson:
     def __init__(self):
         clearScr()
-        self.createFolders()
         print (watsonlogo + color.RED + '''
-       }--------------{+} Coded By Manisso {+}--------------{
+       }---------------{+} Coded By bartosz-skejcik {+}--------------{
        }--------{+}  GitHub.com/bartosz-skejcik/dr.watson {+}--------{
     ''' + color.END + '''
-       {1}--Information Gathering
-       {2}--Password Attacks
-       {3}--Wireless Testing
-       {4}--Exploitation Tools
-       {5}--Sniffing & Spoofing
-       {6}--Web Hacking
-       {7}--Private Web Hacking
-       {8}--Post Exploitation
-       {0}--INSTALL & UPDATE
-       {11}-CONTRIBUTORS
-       {0}-EXIT\n
+       [1]  Information Gathering
+       [2]  Hashing
+       [0]  EXIT
      ''')
         choice = raw_input(watsonPrompt)
         clearScr()
         if choice == "1":
             informationGatheringMenu()
         elif choice == "2":
-            passwordAttacksMenu()
-        elif choice == "3":
-            wirelessTestingMenu()
-        elif choice == "4":
-            exploitationToolsMenu()
-        elif choice == "5":
-            sniffingSpoofingMenu()
-        elif choice == "6":
-            webHackingMenu()
-        elif choice == "7":
-            privateWebHacking()
-        elif choice == "8":
-            postExploitationMenu()
+            hashingMenu()
         elif choice == "00":
             self.update()
-        elif choice == "11":
-            self.githubContributors()
         elif choice == "0":
             sys.exit()
         elif choice == "\r" or choice == "\n" or choice == "" or choice == " ":
@@ -148,3 +69,86 @@ class fsociety:
             os.system("git clone --depth=1 https://github.com/bartosz-skejcik/dr.watson.git")
             os.system("cd dr.watson && bash ./update.sh")
             os.system("watson")
+
+
+class hashingMenu:
+    menuLogo = '''
+ _   _              _      _               
+| | | |            | |    (_)              
+| |_| |  __ _  ___ | |__   _  _ __    __ _ 
+|  _  | / _` |/ __|| '_ \ | || '_ \  / _` |
+| | | || (_| |\__ \| | | || || | | || (_| |
+\_| |_/ \__,_||___/|_| |_||_||_| |_| \__, |
+                                      __/ |
+                                     |___/ 
+    '''
+
+    def __init__(self):
+        clearScr()
+        print(self.menuLogo)
+
+        print("  [1]  Decoding    [2]  Encoding\n")
+        print("  [0]-Back To Main Menu \n")
+        choice2 = input(watsonPrompt)
+        clearScr()
+        if choice2 == "1":
+            decode()
+        elif choice2 == "1":
+            encode()
+        elif choice2 == "0":
+            watson()
+        else:
+            self.__init__()
+        self.completed()
+
+
+class informationGatheringMenu:
+    menuLogo = '''
+    88 88b 88 888888  dP"Yb
+    88 88Yb88 88__   dP   Yb
+    88 88 Y88 88""   Yb   dP
+    88 88  Y8 88      YbodP
+    '''
+
+    def __init__(self):
+        clearScr()
+        print(self.menuLogo)
+
+        print("  [1] Nmap - Network Port Scanner\n")
+        print("  [0]-Back To Main Menu \n")
+        choice2 = input(watsonPrompt)
+        clearScr()
+        if choice2 == "1":
+            nmap()
+        elif choice2 == "0":
+            watson()
+        else:
+            self.__init__()
+        self.completed()
+
+class decode:
+
+    menuLogo = '''    
+______                         _  _               
+|  _  \                       | |(_)              
+| | | |  ___   ___   ___    __| | _  _ __    __ _ 
+| | | | / _ \ / __| / _ \  / _` || || '_ \  / _` |
+| |/ / |  __/| (__ | (_) || (_| || || | | || (_| |
+|___/   \___| \___| \___/  \__,_||_||_| |_| \__, |
+                                             __/ |
+                                            |___/ 
+'''
+
+    def __init__(self):
+        clearScr()
+        print(self.menuLogo)
+
+        choice2 = input('message/' + watsonPrompt)
+        clearScr()
+        if choice2 == "1":
+            nmap()
+        elif choice2 == "0":
+            watson()
+        else:
+            self.__init__()
+        self.completed()

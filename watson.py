@@ -4,6 +4,8 @@ import os
 import time
 import sys
 import random
+import nmap
+import re
 
 try:
     from cryptography.fernet import Fernet
@@ -29,9 +31,10 @@ Opening the app...""")
         time.sleep(1)
         exit()
 
-while True:
-    os.system('cls')
-    start()
-    a = input(watsonPrompt)
-
+if __name__ == "__main__":
+    try:
+        watson()
+    except KeyboardInterrupt:
+        print(" Finishing up...\n")
+        time.sleep(0.25)
     
