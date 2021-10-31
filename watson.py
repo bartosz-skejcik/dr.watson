@@ -32,6 +32,6 @@ Opening the app...""")
 while True:
     os.system('cls')
     start()
-    a = input(fsocietyPrompt)
+    a = input(watsonPrompt)
 
     
